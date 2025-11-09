@@ -1,73 +1,125 @@
-# Welcome to your Lovable project
+# Gala Ibae 2025 - Sistema de Votação Oscar Adols
 
-## Project info
+Sistema completo de votação para a Gala Ibae 2025, permitindo que usuários votem em categorias e participantes, com área administrativa para gerenciamento.
 
-**URL**: https://lovable.dev/projects/659f5492-d46c-475e-92a0-0a555d9dad80
+## 🚀 Funcionalidades
 
-## How can I edit this code?
+- ✅ Sistema de votação por categorias
+- ✅ Upload de imagens para participantes
+- ✅ Área administrativa com autenticação
+- ✅ Gerenciamento de categorias e participantes
+- ✅ Resultados de votação em tempo real
+- ✅ Interface moderna e responsiva
+- ✅ Integração com Supabase
 
-There are several ways of editing your application.
+## 🛠️ Tecnologias
 
-**Use Lovable**
+- **Frontend**: React + TypeScript + Vite
+- **UI**: Tailwind CSS + shadcn/ui
+- **Backend**: Supabase (PostgreSQL + Storage)
+- **Deploy**: Vercel
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/659f5492-d46c-475e-92a0-0a555d9dad80) and start prompting.
+## 📋 Pré-requisitos
 
-Changes made via Lovable will be committed automatically to this repo.
+- Node.js 18+ e npm
+- Conta no Supabase
+- Conta no Vercel (para deploy)
 
-**Use your preferred IDE**
+## 🔧 Configuração Local
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### 1. Clone o repositório
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+```bash
+git clone https://github.com/ryanasafebusiness/oscar.git
+cd oscar
+```
 
-Follow these steps:
+### 2. Instale as dependências
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+```bash
+npm install
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### 3. Configure as variáveis de ambiente
 
-# Step 3: Install the necessary dependencies.
-npm i
+Crie um arquivo `.env.local` na raiz do projeto:
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```env
+VITE_SUPABASE_URL=https://seu-projeto.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=sua_publishable_key_aqui
+```
+
+### 4. Configure o Supabase
+
+1. Execute o script `supabase/migrations/20251109184548_f57b959a-d6b8-4f5e-97ef-dfa859b6454f.sql` no SQL Editor do Supabase
+2. Execute o script `fix_rls_policies.sql` para configurar as políticas RLS
+3. Execute o script `setup_storage.sql` para configurar o Storage para upload de imagens
+
+### 5. Inicie o servidor de desenvolvimento
+
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+A aplicação estará disponível em `http://localhost:8080`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 🚀 Deploy no Vercel
 
-**Use GitHub Codespaces**
+### 1. Conecte o repositório ao Vercel
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+1. Acesse [Vercel](https://vercel.com)
+2. Clique em "Add New Project"
+3. Conecte o repositório GitHub `ryanasafebusiness/oscar`
+4. Selecione o repositório
 
-## What technologies are used for this project?
+### 2. Configure as variáveis de ambiente
 
-This project is built with:
+No Vercel, vá em **Settings > Environment Variables** e adicione:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- `VITE_SUPABASE_URL`: URL do seu projeto Supabase
+- `VITE_SUPABASE_PUBLISHABLE_KEY`: Chave pública do Supabase
 
-## How can I deploy this project?
+### 3. Configure o Build
 
-Simply open [Lovable](https://lovable.dev/projects/659f5492-d46c-475e-92a0-0a555d9dad80) and click on Share -> Publish.
+- **Framework Preset**: Vite
+- **Build Command**: `npm run build`
+- **Output Directory**: `dist`
+- **Install Command**: `npm install`
 
-## Can I connect a custom domain to my Lovable project?
+### 4. Deploy
 
-Yes, you can!
+Clique em "Deploy" e aguarde o processo concluir.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 📚 Documentação Adicional
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- [FIX_CATEGORIES.md](./FIX_CATEGORIES.md) - Como corrigir políticas RLS
+- [SETUP_STORAGE.md](./SETUP_STORAGE.md) - Como configurar o Storage para upload de imagens
+
+## 🔐 Segurança
+
+- ⚠️ **Nunca commite arquivos `.env` ou `.env.local`**
+- ⚠️ As políticas RLS permitem operações públicas - considere adicionar autenticação para produção
+- ⚠️ A senha administrativa está no código - considere usar autenticação do Supabase para produção
+
+## 📝 Scripts Disponíveis
+
+- `npm run dev` - Inicia o servidor de desenvolvimento
+- `npm run build` - Cria build de produção
+- `npm run preview` - Preview do build de produção
+- `npm run lint` - Executa o linter
+
+## 🤝 Contribuindo
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📄 Licença
+
+Este projeto é privado e pertence a ryanasafebusiness.
+
+## 🆘 Suporte
+
+Para problemas ou dúvidas, abra uma issue no repositório.
