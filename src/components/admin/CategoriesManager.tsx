@@ -53,29 +53,81 @@ const CategoriesManager = () => {
   const fetchCategories = async () => {
     try {
       setLoading(true);
-      if (!supabase) return;
+      if (!supabase) {
+        console.error("Supabase não está inicializado");
+        toast.error("Erro: Backend não está disponível");
+        setLoading(false);
+        return;
+      }
+      
+      console.log("Buscando categorias e participantes...");
+      
       const { data: categoriesData, error: categoriesError } = await supabase
         .from("categories")
         .select("*")
         .order("display_order", { ascending: true });
 
-      if (categoriesError) throw categoriesError;
+      if (categoriesError) {
+        console.error("Erro ao buscar categorias:", categoriesError);
+        console.error("Código do erro:", categoriesError.code);
+        console.error("Mensagem do erro:", categoriesError.message);
+        
+        if (categoriesError.code === '42501' || categoriesError.message?.includes('permission denied') || categoriesError.message?.includes('row-level security')) {
+          toast.error("Erro de permissão ao ler categorias", {
+            description: "As políticas RLS não permitem ler categorias. Verifique as políticas do banco de dados.",
+            duration: 10000,
+          });
+        } else {
+          toast.error(`Erro ao carregar categorias: ${categoriesError.message}`, {
+            duration: 10000,
+          });
+        }
+        throw categoriesError;
+      }
+
+      console.log("Categorias encontradas:", categoriesData?.length || 0, categoriesData);
 
       const { data: participantsData, error: participantsError } = await supabase
         .from("participants")
         .select("*");
 
-      if (participantsError) throw participantsError;
+      if (participantsError) {
+        console.error("Erro ao buscar participantes:", participantsError);
+        console.error("Código do erro:", participantsError.code);
+        console.error("Mensagem do erro:", participantsError.message);
+        
+        if (participantsError.code === '42501' || participantsError.message?.includes('permission denied') || participantsError.message?.includes('row-level security')) {
+          toast.error("Erro de permissão ao ler participantes", {
+            description: "As políticas RLS não permitem ler participantes. Verifique as políticas do banco de dados.",
+            duration: 10000,
+          });
+        } else {
+          toast.error(`Erro ao carregar participantes: ${participantsError.message}`, {
+            duration: 10000,
+          });
+        }
+        throw participantsError;
+      }
 
-      const categoriesWithParticipants = categoriesData.map(category => ({
+      console.log("Participantes encontrados:", participantsData?.length || 0, participantsData);
+
+      const categoriesWithParticipants = (categoriesData || []).map(category => ({
         ...category,
-        participants: participantsData.filter(p => p.category_id === category.id),
+        participants: (participantsData || []).filter(p => p.category_id === category.id),
       }));
 
+      console.log("Categorias com participantes:", categoriesWithParticipants);
       setCategories(categoriesWithParticipants);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error fetching categories:", error);
-      toast.error("Erro ao carregar categorias");
+      if (!error.message?.includes('permission denied') && !error.message?.includes('row-level security')) {
+        toast.error("Erro ao carregar categorias", {
+          description: error?.message || "Erro desconhecido",
+          duration: 10000,
+        });
+      }
+      // Manter array vazio em caso de erro para não quebrar a UI
+      setCategories([]);
     } finally {
       setLoading(false);
     }

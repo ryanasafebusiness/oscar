@@ -52,26 +52,58 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
   }, []);
 
   const fetchStats = async () => {
-    if (!supabase) return;
+    if (!supabase) {
+      console.error("Supabase não está inicializado");
+      return;
+    }
+    
     try {
+      console.log("Buscando estatísticas...");
+      
       const [categoriesRes, participantsRes, votesRes] = await Promise.all([
         supabase.from("categories").select("id", { count: "exact", head: true }),
         supabase.from("participants").select("id", { count: "exact", head: true }),
         supabase.from("votes").select("id", { count: "exact", head: true }),
       ]);
 
+      console.log("Resultado categorias:", categoriesRes);
+      console.log("Resultado participantes:", participantsRes);
+      console.log("Resultado votos:", votesRes);
+
+      // Verificar erros em categorias
+      if (categoriesRes.error) {
+        console.error("Error fetching categories count:", categoriesRes.error);
+        console.error("Código:", categoriesRes.error.code);
+        console.error("Mensagem:", categoriesRes.error.message);
+      }
+
+      // Verificar erros em participantes
+      if (participantsRes.error) {
+        console.error("Error fetching participants count:", participantsRes.error);
+        console.error("Código:", participantsRes.error.code);
+        console.error("Mensagem:", participantsRes.error.message);
+      }
+
       // Se houver erro ao contar votos, pode ser problema de RLS
       if (votesRes.error) {
         console.error("Error fetching votes count:", votesRes.error);
+        console.error("Código:", votesRes.error.code);
+        console.error("Mensagem:", votesRes.error.message);
         // Se for erro de permissão, não atualizar o contador
-        if (votesRes.error.message?.includes('permission denied') || votesRes.error.code === '42501') {
-          console.warn("Permissão negada para contar votos. Verifique se a política de SELECT está configurada.");
+        if (votesRes.error.message?.includes('permission denied') || votesRes.error.code === '42501' || votesRes.error.message?.includes('row-level security')) {
+          console.warn("Permissão negada para contar votos. Verifique se a política de SELECT está configurada. Execute fix_votes_rls.sql");
         }
       }
 
       setStats({
-        categories: categoriesRes.count || 0,
-        participants: participantsRes.count || 0,
+        categories: categoriesRes.error ? 0 : (categoriesRes.count || 0),
+        participants: participantsRes.error ? 0 : (participantsRes.count || 0),
+        votes: votesRes.error ? 0 : (votesRes.count || 0),
+      });
+
+      console.log("Estatísticas atualizadas:", {
+        categories: categoriesRes.error ? 0 : (categoriesRes.count || 0),
+        participants: participantsRes.error ? 0 : (participantsRes.count || 0),
         votes: votesRes.error ? 0 : (votesRes.count || 0),
       });
     } catch (error) {

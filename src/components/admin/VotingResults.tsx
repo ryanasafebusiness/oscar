@@ -50,9 +50,16 @@ const VotingResults = () => {
   }, []);
 
   const fetchResults = async () => {
-    if (!supabase) return;
+    if (!supabase) {
+      console.error("Supabase não está inicializado");
+      toast.error("Erro: Backend não está disponível");
+      setLoading(false);
+      return;
+    }
+    
     try {
       setLoading(true);
+      console.log("Iniciando busca de resultados...");
 
       // Fetch categories
       const { data: categories, error: categoriesError } = await supabase
@@ -60,14 +67,24 @@ const VotingResults = () => {
         .select("id, name")
         .order("display_order", { ascending: true });
 
-      if (categoriesError) throw categoriesError;
+      if (categoriesError) {
+        console.error("Erro ao buscar categorias:", categoriesError);
+        throw categoriesError;
+      }
+
+      console.log("Categorias encontradas:", categories?.length || 0, categories);
 
       // Fetch participants
       const { data: participants, error: participantsError } = await supabase
         .from("participants")
         .select("id, category_id, name");
 
-      if (participantsError) throw participantsError;
+      if (participantsError) {
+        console.error("Erro ao buscar participantes:", participantsError);
+        throw participantsError;
+      }
+
+      console.log("Participantes encontrados:", participants?.length || 0, participants);
 
       // Fetch votes
       const { data: votes, error: votesError } = await supabase
@@ -75,24 +92,55 @@ const VotingResults = () => {
         .select("category_id, participant_id");
 
       if (votesError) {
-        console.error("Error fetching votes:", votesError);
-        // Se for erro de permissão, mostrar mensagem específica
+        console.error("Erro ao buscar votos:", votesError);
+        console.error("Código do erro:", votesError.code);
+        console.error("Mensagem do erro:", votesError.message);
+        
+        // Se for erro de permissão, mostrar mensagem específica mas continuar com os dados disponíveis
         if (votesError.message?.includes('permission denied') || votesError.message?.includes('row-level security') || votesError.code === '42501') {
           toast.error("Erro de permissão ao ler votos", {
             description: "As políticas RLS não permitem ler votos. Execute o script fix_votes_rls.sql no Supabase para adicionar a política de SELECT.",
             duration: 10000,
           });
+          // Continuar processamento com array vazio de votos
+          const resultsData = (categories || []).map((category) => {
+            const categoryParticipants = (participants || []).filter(
+              (p) => p.category_id === category.id
+            );
+            
+            const participantResults: ParticipantResult[] = categoryParticipants
+              .map((participant) => ({
+                id: participant.id,
+                name: participant.name,
+                votes: 0,
+                percentage: 0,
+              }))
+              .sort((a, b) => b.votes - a.votes);
+
+            return {
+              id: category.id,
+              category: category.name,
+              participants: participantResults,
+              totalVotes: 0,
+            };
+          });
+
+          setResults(resultsData);
+          setLoading(false);
+          return;
         }
         throw votesError;
       }
 
+      console.log("Votos encontrados:", votes?.length || 0, votes);
+
       // Calculate results
-      const resultsData: CategoryResult[] = categories.map((category) => {
-        const categoryParticipants = participants.filter(
+      const resultsData: CategoryResult[] = (categories || []).map((category) => {
+        const categoryParticipants = (participants || []).filter(
           (p) => p.category_id === category.id
         );
         
-        const categoryVotes = votes.filter((v) => v.category_id === category.id);
+        const categoryVotes = (votes || []).filter((v) => v.category_id === category.id);
         const totalVotes = categoryVotes.length;
 
         const participantResults: ParticipantResult[] = categoryParticipants
@@ -118,6 +166,7 @@ const VotingResults = () => {
         };
       });
 
+      console.log("Resultados calculados:", resultsData);
       setResults(resultsData);
     } catch (error: any) {
       console.error("Error fetching results:", error);
