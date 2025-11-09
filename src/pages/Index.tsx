@@ -67,17 +67,13 @@ const Index = () => {
           </div>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-2 md:pt-4 w-full max-w-md mx-auto px-2">
+          <div className="flex justify-center pt-2 md:pt-4 w-full px-2">
             <Button size="lg" onClick={() => navigate("/vote")} className="group relative overflow-hidden bg-gradient-to-r from-gold to-gold-light text-primary-foreground hover:shadow-[var(--shadow-gold)] transition-all duration-500 text-base md:text-lg px-6 md:px-8 py-4 md:py-6 rounded-xl font-semibold w-full sm:w-auto">
               <span className="relative z-10 flex items-center justify-center gap-2">
                 <Trophy className="w-4 h-4 md:w-5 md:h-5 group-hover:rotate-12 transition-transform" />
                 Votar Agora
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-gold-light to-champagne opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            </Button>
-
-            <Button size="lg" variant="outline" onClick={() => navigate("/admin")} className="border-2 border-gold/30 text-foreground hover:bg-gold/10 hover:border-gold transition-all duration-300 text-base md:text-lg px-6 md:px-8 py-4 md:py-6 rounded-xl font-semibold backdrop-blur-sm w-full sm:w-auto">
-              Área Administrativa
             </Button>
           </div>
 
