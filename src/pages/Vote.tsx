@@ -224,46 +224,46 @@ const Vote = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background py-12">
-      <div className="container mx-auto px-4 max-w-6xl">
+    <div className="min-h-screen bg-background py-4 md:py-12">
+      <div className="container mx-auto px-3 md:px-4 max-w-6xl">
         {/* Header */}
-        <div className="mb-12">
+        <div className="mb-6 md:mb-12">
           <Button
             variant="ghost"
             onClick={() => navigate("/")}
-            className="mb-6 text-foreground hover:text-gold hover:bg-gold/10"
+            className="mb-3 md:mb-6 text-foreground hover:text-gold hover:bg-gold/10 p-2 md:p-3"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Voltar
+            <span className="text-sm md:text-base">Voltar</span>
           </Button>
 
-          <div className="text-center space-y-4">
+          <div className="text-center space-y-2 md:space-y-4">
             <div className="flex items-center justify-center gap-2 text-gold">
-              <Trophy className="w-6 h-6" />
-              <span className="text-sm uppercase tracking-widest font-semibold">
+              <Trophy className="w-4 h-4 md:w-6 md:h-6" />
+              <span className="text-xs md:text-sm uppercase tracking-widest font-semibold">
                 OSCAR ADOLS 2025 - Votação
               </span>
             </div>
 
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground">
+            <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-foreground px-2">
               Vote nos Seus Favoritos
             </h1>
 
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto px-2">
               Selecione um participante em cada categoria. Seus votos são anônimos e serão contabilizados em tempo real.
             </p>
           </div>
         </div>
 
         {/* Categories */}
-        <div className="space-y-12">
+        <div className="space-y-8 md:space-y-12">
           {categories.map((category) => (
-            <div key={category.id} className="space-y-6">
-              <h2 className="text-2xl md:text-3xl font-bold text-gold border-b border-gold/30 pb-3">
+            <div key={category.id} className="space-y-3 md:space-y-6">
+              <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-gold border-b border-gold/30 pb-2 md:pb-3 px-2">
                 {category.name}
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
                 {category.participants.map((participant) => {
                   const isSelected = votes[category.id] === participant.id;
 
@@ -279,7 +279,7 @@ const Vote = () => {
                     >
                       <CardContent className="p-0 relative overflow-hidden">
                         {/* Image */}
-                        <div className="relative aspect-square overflow-hidden">
+                        <div className="relative aspect-[4/3] md:aspect-square overflow-hidden">
                           <img
                             src={
                               participant.image_url ||
@@ -298,19 +298,19 @@ const Vote = () => {
 
                           {/* Check icon */}
                           {isSelected && (
-                            <div className="absolute top-4 right-4 bg-gold text-primary-foreground rounded-full p-2 animate-in zoom-in-50">
-                              <Check className="w-6 h-6" />
+                            <div className="absolute top-2 right-2 md:top-4 md:right-4 bg-gold text-primary-foreground rounded-full p-1.5 md:p-2 animate-in zoom-in-50">
+                              <Check className="w-4 h-4 md:w-6 md:h-6" />
                             </div>
                           )}
                         </div>
 
                         {/* Content */}
-                        <div className="p-6 space-y-2">
-                          <h3 className="text-xl font-bold text-foreground group-hover:text-gold transition-colors">
+                        <div className="p-3 md:p-6 space-y-1 md:space-y-2">
+                          <h3 className="text-base md:text-xl font-bold text-foreground group-hover:text-gold transition-colors">
                             {participant.name}
                           </h3>
                           {participant.description && (
-                            <p className="text-sm text-muted-foreground line-clamp-2">
+                            <p className="text-xs md:text-sm text-muted-foreground line-clamp-2">
                               {participant.description}
                             </p>
                           )}
@@ -326,21 +326,21 @@ const Vote = () => {
 
         {/* Submit Button */}
         {!submitted && (
-          <div className="flex justify-center pt-12">
+          <div className="flex justify-center pt-6 md:pt-12 px-4">
             <Button
               size="lg"
               onClick={handleSubmit}
               disabled={Object.keys(votes).length === 0 || submitting}
-              className="bg-gradient-to-r from-gold to-gold-light text-primary-foreground hover:shadow-[var(--shadow-gold)] transition-all duration-500 text-lg px-12 py-6 rounded-xl font-semibold disabled:opacity-50"
+              className="w-full sm:w-auto bg-gradient-to-r from-gold to-gold-light text-primary-foreground hover:shadow-[var(--shadow-gold)] transition-all duration-500 text-base md:text-lg px-8 md:px-12 py-4 md:py-6 rounded-xl font-semibold disabled:opacity-50"
             >
               {submitting ? (
                 <>
-                  <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                  <Loader2 className="w-4 h-4 md:w-5 md:h-5 mr-2 animate-spin" />
                   Registrando...
                 </>
               ) : (
                 <>
-                  <Trophy className="w-5 h-5 mr-2" />
+                  <Trophy className="w-4 h-4 md:w-5 md:h-5 mr-2" />
                   Finalizar Votação
                 </>
               )}
@@ -350,18 +350,18 @@ const Vote = () => {
 
         {/* Thank you message */}
         {submitted && (
-          <div className="text-center py-12 space-y-4 animate-in fade-in-50">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gold/20 text-gold mb-4">
-              <Trophy className="w-10 h-10" />
+          <div className="text-center py-6 md:py-12 space-y-3 md:space-y-4 animate-in fade-in-50 px-4">
+            <div className="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-full bg-gold/20 text-gold mb-2 md:mb-4">
+              <Trophy className="w-8 h-8 md:w-10 md:h-10" />
             </div>
-            <h2 className="text-3xl font-bold text-gold">Obrigado por Votar!</h2>
-            <p className="text-muted-foreground max-w-md mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold text-gold">Obrigado por Votar!</h2>
+            <p className="text-sm md:text-base text-muted-foreground max-w-md mx-auto">
               Sua participação é muito importante para nós. Os resultados serão anunciados em breve.
             </p>
             <Button
               variant="outline"
               onClick={() => navigate("/")}
-              className="mt-6 border-gold/30 text-foreground hover:bg-gold/10 hover:border-gold"
+              className="mt-4 md:mt-6 border-gold/30 text-foreground hover:bg-gold/10 hover:border-gold text-sm md:text-base"
             >
               Voltar ao Início
             </Button>
