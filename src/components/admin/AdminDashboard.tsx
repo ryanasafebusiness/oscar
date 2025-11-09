@@ -89,7 +89,7 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
                 Painel Administrativo
               </h1>
               <p className="text-xs text-muted-foreground">
-                Gala Ibae 2025
+                OSCAR ADOLS 2025
               </p>
             </div>
           </div>

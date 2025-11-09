@@ -200,7 +200,7 @@ const Vote = () => {
             <div className="flex items-center justify-center gap-2 text-gold">
               <Trophy className="w-6 h-6" />
               <span className="text-sm uppercase tracking-widest font-semibold">
-                Votação Gala Ibae 2025
+                OSCAR ADOLS 2025 - Votação
               </span>
             </div>
 

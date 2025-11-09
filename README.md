@@ -1,6 +1,6 @@
-# Gala Ibae 2025 - Sistema de Votação Oscar Adols
+# OSCAR ADOLS 2025 - Sistema de Votação
 
-Sistema completo de votação para a Gala Ibae 2025, permitindo que usuários votem em categorias e participantes, com área administrativa para gerenciamento.
+Sistema completo de votação para o OSCAR ADOLS 2025 - Gala Ibae, permitindo que usuários votem em categorias e participantes, com área administrativa para gerenciamento.
 
 ## 🚀 Funcionalidades
 

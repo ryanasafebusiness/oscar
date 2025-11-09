@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#D4AF37;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Trophy Base -->
+  <rect x="35" y="75" width="30" height="10" fill="url(#goldGradient)" rx="2"/>
+  <!-- Trophy Stem -->
+  <rect x="48" y="55" width="4" height="20" fill="url(#goldGradient)"/>
+  <!-- Trophy Cup -->
+  <path d="M 30 55 Q 30 35 50 25 Q 70 35 70 55 L 70 60 L 30 60 Z" fill="url(#goldGradient)"/>
+  <!-- Trophy Handle Left -->
+  <path d="M 30 50 Q 15 45 15 35 Q 15 25 30 30" stroke="url(#goldGradient)" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- Trophy Handle Right -->
+  <path d="M 70 50 Q 85 45 85 35 Q 85 25 70 30" stroke="url(#goldGradient)" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- Star on Trophy -->
+  <path d="M 50 40 L 52 45 L 57 45 L 53 48 L 55 53 L 50 50 L 45 53 L 47 48 L 43 45 L 48 45 Z" fill="#FFD700"/>
+</svg>
+
