@@ -3,7 +3,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, WifiOff } from 'lucide-react';
 
 export const BackendStatusBanner = () => {
-  const { isReady, isConnecting } = useSupabaseStatus();
+  const { isReady, isConnecting, error } = useSupabaseStatus();
 
   if (isReady) return null;
 
@@ -21,7 +21,7 @@ export const BackendStatusBanner = () => {
           <>
             <WifiOff className="h-4 w-4 text-destructive" />
             <AlertDescription className="text-sm text-foreground">
-              Não foi possível conectar ao backend. Tente recarregar a página ou publicar o projeto.
+              {error || 'Não foi possível conectar ao backend. Verifique as variáveis de ambiente VITE_SUPABASE_URL e VITE_SUPABASE_PUBLISHABLE_KEY.'}
             </AlertDescription>
           </>
         )}
