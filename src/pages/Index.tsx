@@ -104,6 +104,24 @@ const Index = () => {
             </Button>
           </div>
 
+          {/* Local do Evento Section */}
+          <div className="pt-4 md:pt-6 space-y-3 md:space-y-4 px-2">
+            <h3 className="text-base md:text-lg font-semibold text-foreground uppercase tracking-wider">
+              LOCAL DO EVENTO
+            </h3>
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => window.open("https://www.google.com/maps/dir//IGREJA+BATISTA+ALIAN%C3%87A+ETERNA+-+SANTA+LUZIA+-+R.+Yara,+135+-+S%C3%A3o+Benedito,+Santa+Luzia+-+MG,+33125-570/@-19.7854722,-43.9408568,17z/data=!4m17!1m7!3m6!1s0xa68589a36277a7:0xb83ee4d5c45bdf7b!2sIGREJA+BATISTA+ALIAN%C3%87A+ETERNA+-+SANTA+LUZIA!8m2!3d-19.7855952!4d-43.9406685!16s%2Fg%2F11c40wh85f!4m8!1m0!1m5!1m1!1s0xa68589a36277a7:0xb83ee4d5c45bdf7b!2m2!1d-43.9406685!2d-19.7855952!3e3?entry=ttu&g_ep=EgoyMDI1MTEwNC4xIKXMDSoASAFQAw%3D%3D", "_blank", "noopener,noreferrer")}
+              className="group border-2 border-gold/30 text-foreground hover:bg-gradient-to-r hover:from-blue-500 hover:to-green-500 hover:border-blue-500 hover:text-white transition-all duration-300 text-base md:text-lg px-6 md:px-8 py-4 md:py-6 rounded-xl font-semibold backdrop-blur-sm w-full sm:w-auto"
+            >
+              <span className="flex items-center justify-center gap-2 md:gap-3">
+                <MapPin className="w-5 h-5 md:w-6 md:h-6 group-hover:scale-110 transition-transform" />
+                <span className="text-sm md:text-base">Ver no Google Maps</span>
+              </span>
+            </Button>
+          </div>
+
           {/* Additional info */}
           <div className="pt-6 md:pt-8 text-xs md:text-sm text-muted-foreground px-2">
             <p>Um evento que celebra o melhor da nossa mídia e ministério</p>
