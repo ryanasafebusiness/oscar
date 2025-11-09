@@ -13,8 +13,10 @@ DROP POLICY IF EXISTS "Anyone can insert votes" ON public.votes;
 DROP POLICY IF EXISTS "Public can insert votes" ON public.votes;
 DROP POLICY IF EXISTS "Public can update votes" ON public.votes;
 DROP POLICY IF EXISTS "Public can delete votes" ON public.votes;
+DROP POLICY IF EXISTS "Public can view votes" ON public.votes;
 DROP POLICY IF EXISTS "Anyone can update votes" ON public.votes;
 DROP POLICY IF EXISTS "Anyone can delete votes" ON public.votes;
+DROP POLICY IF EXISTS "Anyone can view votes" ON public.votes;
 
 -- Passo 3: Criar política para permitir INSERT de votos
 -- Esta política permite que qualquer pessoa possa inserir votos
@@ -41,15 +43,25 @@ FOR DELETE
 TO public
 USING (true);
 
+-- Passo 6: Criar política para permitir SELECT de votos
+-- Esta política permite ler votos (necessário para exibir resultados na área admin)
+-- IMPORTANTE: Esta política permite que qualquer pessoa possa ver os votos agregados
+CREATE POLICY "Public can view votes"
+ON public.votes
+FOR SELECT
+TO public
+USING (true);
+
 -- =====================================================
 -- VERIFICAÇÃO
 -- =====================================================
 -- Execute o comando abaixo para verificar se as políticas foram criadas:
 -- SELECT policyname, cmd, qual FROM pg_policies WHERE tablename = 'votes';
 -- 
--- Você deve ver 3 políticas:
+-- Você deve ver 4 políticas:
 -- 1. Public can insert votes (INSERT)
 -- 2. Public can update votes (UPDATE)
 -- 3. Public can delete votes (DELETE)
+-- 4. Public can view votes (SELECT)
 -- =====================================================
 

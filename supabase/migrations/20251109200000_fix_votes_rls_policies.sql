@@ -9,8 +9,10 @@ DROP POLICY IF EXISTS "Anyone can insert votes" ON public.votes;
 DROP POLICY IF EXISTS "Public can insert votes" ON public.votes;
 DROP POLICY IF EXISTS "Public can update votes" ON public.votes;
 DROP POLICY IF EXISTS "Public can delete votes" ON public.votes;
+DROP POLICY IF EXISTS "Public can view votes" ON public.votes;
 DROP POLICY IF EXISTS "Anyone can update votes" ON public.votes;
 DROP POLICY IF EXISTS "Anyone can delete votes" ON public.votes;
+DROP POLICY IF EXISTS "Anyone can view votes" ON public.votes;
 
 -- Criar política para permitir INSERT de votos (qualquer pessoa pode votar)
 CREATE POLICY "Public can insert votes"
@@ -31,6 +33,13 @@ WITH CHECK (true);
 CREATE POLICY "Public can delete votes"
 ON public.votes
 FOR DELETE
+TO public
+USING (true);
+
+-- Criar política para permitir SELECT de votos (para exibir resultados)
+CREATE POLICY "Public can view votes"
+ON public.votes
+FOR SELECT
 TO public
 USING (true);
 

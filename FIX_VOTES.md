@@ -25,10 +25,11 @@ Para verificar se as políticas foram criadas corretamente, execute:
 SELECT * FROM pg_policies WHERE tablename = 'votes';
 ```
 
-Você deve ver três políticas:
-- "Anyone can insert votes" (INSERT)
-- "Anyone can update votes" (UPDATE)
-- "Anyone can delete votes" (DELETE)
+Você deve ver quatro políticas:
+- "Public can insert votes" (INSERT) - Permite criar votos
+- "Public can update votes" (UPDATE) - Permite atualizar votos
+- "Public can delete votes" (DELETE) - Permite deletar votos
+- "Public can view votes" (SELECT) - Permite ler votos (necessário para exibir resultados)
 
 ### Passo 3: Testar a Votação
 
@@ -45,6 +46,7 @@ O script `fix_votes_rls.sql`:
 2. Cria política para INSERT (permitir criar votos)
 3. Cria política para UPDATE (permitir atualizar votos existentes)
 4. Cria política para DELETE (permitir deletar votos para substituição)
+5. Cria política para SELECT (permitir ler votos - necessário para exibir resultados na área admin)
 
 ## Nota de Segurança
 

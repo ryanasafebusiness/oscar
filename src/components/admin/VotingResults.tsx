@@ -74,7 +74,17 @@ const VotingResults = () => {
         .from("votes")
         .select("category_id, participant_id");
 
-      if (votesError) throw votesError;
+      if (votesError) {
+        console.error("Error fetching votes:", votesError);
+        // Se for erro de permissão, mostrar mensagem específica
+        if (votesError.message?.includes('permission denied') || votesError.message?.includes('row-level security') || votesError.code === '42501') {
+          toast.error("Erro de permissão ao ler votos", {
+            description: "As políticas RLS não permitem ler votos. Execute o script fix_votes_rls.sql no Supabase para adicionar a política de SELECT.",
+            duration: 10000,
+          });
+        }
+        throw votesError;
+      }
 
       // Calculate results
       const resultsData: CategoryResult[] = categories.map((category) => {
@@ -109,9 +119,23 @@ const VotingResults = () => {
       });
 
       setResults(resultsData);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error fetching results:", error);
-      toast.error("Erro ao carregar resultados");
+      
+      let errorMessage = "Erro ao carregar resultados da votação.";
+      
+      if (error?.message) {
+        if (error.message.includes('permission denied') || error.message.includes('row-level security') || error.code === '42501') {
+          errorMessage = "Erro de permissão: As políticas RLS não estão configuradas corretamente. Execute o script fix_votes_rls.sql no Supabase para adicionar a política de SELECT na tabela votes.";
+        } else {
+          errorMessage = error.message;
+        }
+      }
+      
+      toast.error("Erro ao carregar resultados", {
+        description: errorMessage,
+        duration: 10000,
+      });
     } finally {
       setLoading(false);
     }
