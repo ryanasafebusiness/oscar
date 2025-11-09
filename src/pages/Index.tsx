@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Trophy, Sparkles, Star, Calendar, MapPin, Ticket } from "lucide-react";
+import { Trophy, Sparkles, Star, Calendar, MapPin, Ticket, Instagram } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import oscarTrophy from "@/assets/oscar-trophy.png";
 const Index = () => {
@@ -86,8 +86,26 @@ const Index = () => {
             <div className="h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
           </div>
 
+          {/* Social Media Section */}
+          <div className="pt-8 space-y-4">
+            <h3 className="text-lg font-semibold text-foreground uppercase tracking-wider">
+              NOSSAS REDES SOCIAIS
+            </h3>
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => window.open("https://www.instagram.com/adolsaliancados_sb/", "_blank", "noopener,noreferrer")}
+              className="group border-2 border-gold/30 text-foreground hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-500 hover:border-pink-500 hover:text-white transition-all duration-300 text-lg px-8 py-6 rounded-xl font-semibold backdrop-blur-sm"
+            >
+              <span className="flex items-center gap-3">
+                <Instagram className="w-6 h-6 group-hover:scale-110 transition-transform" />
+                <span>@adolsaliancados_sb</span>
+              </span>
+            </Button>
+          </div>
+
           {/* Additional info */}
-          <div className="pt-4 text-sm text-muted-foreground">
+          <div className="pt-8 text-sm text-muted-foreground">
             <p>Um evento que celebra o melhor da nossa mídia e ministério</p>
           </div>
         </div>
