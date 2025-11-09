@@ -24,7 +24,7 @@ const Index = () => {
           {/* Oscar Trophy with float animation */}
           <div className="relative animate-float">
             <div className="absolute inset-0 bg-gold/20 blur-3xl rounded-full" />
-            <img src={oscarTrophy} alt="Oscar Trophy" className="relative w-32 md:w-48 lg:w-64 h-auto drop-shadow-2xl" />
+            <img src={oscarTrophy} alt="Oscar Trophy" className="relative w-20 md:w-32 lg:w-40 h-auto drop-shadow-2xl max-w-[160px] md:max-w-[256px] lg:max-w-[320px]" />
           </div>
 
           {/* Title with shimmer effect */}

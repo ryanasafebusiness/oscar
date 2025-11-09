@@ -279,7 +279,7 @@ const Vote = () => {
                     >
                       <CardContent className="p-0 relative overflow-hidden">
                         {/* Image */}
-                        <div className="relative aspect-[4/3] md:aspect-square overflow-hidden">
+                        <div className="relative aspect-[16/10] sm:aspect-[4/3] md:aspect-square overflow-hidden">
                           <img
                             src={
                               participant.image_url ||
