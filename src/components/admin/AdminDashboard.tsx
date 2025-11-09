@@ -60,10 +60,19 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
         supabase.from("votes").select("id", { count: "exact", head: true }),
       ]);
 
+      // Se houver erro ao contar votos, pode ser problema de RLS
+      if (votesRes.error) {
+        console.error("Error fetching votes count:", votesRes.error);
+        // Se for erro de permissão, não atualizar o contador
+        if (votesRes.error.message?.includes('permission denied') || votesRes.error.code === '42501') {
+          console.warn("Permissão negada para contar votos. Verifique se a política de SELECT está configurada.");
+        }
+      }
+
       setStats({
         categories: categoriesRes.count || 0,
         participants: participantsRes.count || 0,
-        votes: votesRes.count || 0,
+        votes: votesRes.error ? 0 : (votesRes.count || 0),
       });
     } catch (error) {
       console.error("Error fetching stats:", error);
