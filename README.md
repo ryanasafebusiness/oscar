@@ -72,23 +72,40 @@ A aplicação estará disponível em `http://localhost:8080`
 3. Conecte o repositório GitHub `ryanasafebusiness/oscar`
 4. Selecione o repositório
 
-### 2. Configure as variáveis de ambiente
+### 2. Configure as variáveis de ambiente ⚠️ IMPORTANTE
 
 No Vercel, vá em **Settings > Environment Variables** e adicione:
 
-- `VITE_SUPABASE_URL`: URL do seu projeto Supabase
-- `VITE_SUPABASE_PUBLISHABLE_KEY`: Chave pública do Supabase
+- **Name**: `VITE_SUPABASE_URL`
+- **Value**: `https://wcstqvwgywldstplmrdg.supabase.co`
+- **Environments**: Selecione todas (Production, Preview, Development)
+
+- **Name**: `VITE_SUPABASE_PUBLISHABLE_KEY`
+- **Value**: `sb_publishable_yBVS2s0O2DD4uO0IllOOlA_xKtLqUxe`
+- **Environments**: Selecione todas (Production, Preview, Development)
+
+**⚠️ IMPORTANTE**: Sem essas variáveis, a aplicação não funcionará no Vercel!
 
 ### 3. Configure o Build
 
-- **Framework Preset**: Vite
+- **Framework Preset**: Vite (deve ser detectado automaticamente)
 - **Build Command**: `npm run build`
 - **Output Directory**: `dist`
 - **Install Command**: `npm install`
 
 ### 4. Deploy
 
-Clique em "Deploy" e aguarde o processo concluir.
+1. Clique em "Deploy" e aguarde o processo concluir
+2. **Após o primeiro deploy**, faça um **Redeploy** para garantir que as variáveis de ambiente foram carregadas
+3. Acesse a aplicação e verifique se não há erros de conexão
+
+### 5. Troubleshooting
+
+Se você ver o erro "Supabase não está configurado":
+- Verifique se as variáveis foram adicionadas corretamente
+- Certifique-se de que selecionou todos os ambientes
+- Faça um novo deploy após adicionar as variáveis
+- Veja [VERCEL_SETUP.md](./VERCEL_SETUP.md) para instruções detalhadas
 
 ## 📚 Documentação Adicional
 

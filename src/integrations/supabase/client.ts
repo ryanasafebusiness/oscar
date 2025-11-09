@@ -19,5 +19,18 @@ export const supabase: SupabaseClient<Database> | null = (url && key)
   : null;
 
 if (!supabase) {
-  console.warn("Lovable Cloud env not ready yet. Try refreshing or publishing to update env variables.");
+  const url = import.meta.env.VITE_SUPABASE_URL;
+  const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+  
+  if (!url || !key) {
+    console.error("❌ Supabase não está configurado!");
+    console.error("Variáveis de ambiente necessárias:");
+    console.error("  - VITE_SUPABASE_URL:", url ? "✅ Configurada" : "❌ Não configurada");
+    console.error("  - VITE_SUPABASE_PUBLISHABLE_KEY:", key ? "✅ Configurada" : "❌ Não configurada");
+    console.error("");
+    console.error("Para corrigir:");
+    console.error("  Local: Crie um arquivo .env.local com as variáveis");
+    console.error("  Vercel: Configure as variáveis em Settings > Environment Variables");
+    console.error("  GitHub: As variáveis devem ser configuradas no Vercel, não no código");
+  }
 }
