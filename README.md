@@ -109,8 +109,10 @@ Se você ver o erro "Supabase não está configurado":
 
 ## 📚 Documentação Adicional
 
-- [FIX_CATEGORIES.md](./FIX_CATEGORIES.md) - Como corrigir políticas RLS
+- [FIX_CATEGORIES.md](./FIX_CATEGORIES.md) - Como corrigir políticas RLS para categorias
+- [FIX_VOTES.md](./FIX_VOTES.md) - Como corrigir políticas RLS para votação
 - [SETUP_STORAGE.md](./SETUP_STORAGE.md) - Como configurar o Storage para upload de imagens
+- [VERCEL_SETUP.md](./VERCEL_SETUP.md) - Como configurar variáveis de ambiente no Vercel
 
 ## 🔐 Segurança
 

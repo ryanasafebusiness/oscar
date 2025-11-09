@@ -113,19 +113,46 @@ const Vote = () => {
       const voterIdentifier = getVoterIdentifier();
 
       // Insert votes into database
+      // For each vote, delete existing vote (if any) and insert new one
       const votesToInsert = Object.entries(votes).map(([categoryId, participantId]) => ({
         category_id: categoryId,
         participant_id: participantId,
         voter_identifier: voterIdentifier,
       }));
 
-      const { error } = await supabase
-        .from("votes")
-        .upsert(votesToInsert, {
-          onConflict: "category_id,voter_identifier",
-        });
+      // Process votes one by one to handle conflicts properly
+      for (const vote of votesToInsert) {
+        // First, delete any existing vote for this category and voter
+        const { error: deleteError } = await supabase
+          .from("votes")
+          .delete()
+          .eq("category_id", vote.category_id)
+          .eq("voter_identifier", vote.voter_identifier);
 
-      if (error) throw error;
+        // If delete fails due to RLS, that's OK - vote might not exist
+        if (deleteError && !deleteError.message.includes('permission denied')) {
+          console.warn("Error deleting existing vote:", deleteError);
+        }
+
+        // Then insert the new vote
+        const { error: insertError } = await supabase
+          .from("votes")
+          .insert([vote]);
+
+        if (insertError) {
+          // If insert fails, try to update instead
+          const { error: updateError } = await supabase
+            .from("votes")
+            .update({ participant_id: vote.participant_id })
+            .eq("category_id", vote.category_id)
+            .eq("voter_identifier", vote.voter_identifier);
+
+          if (updateError) {
+            console.error("Error inserting/updating vote:", updateError);
+            throw new Error(`Erro ao registrar voto: ${updateError.message}`);
+          }
+        }
+      }
 
       setSubmitted(true);
       toast.success("Votação concluída!", {
@@ -133,8 +160,22 @@ const Vote = () => {
       });
     } catch (error: any) {
       console.error("Error submitting votes:", error);
+      
+      let errorMessage = "Tente novamente mais tarde.";
+      
+      if (error?.message) {
+        if (error.message.includes('row-level security') || error.message.includes('RLS')) {
+          errorMessage = "Erro de permissão: As políticas RLS não estão configuradas corretamente. Execute o script fix_votes_rls.sql no Supabase.";
+        } else if (error.message.includes('permission denied')) {
+          errorMessage = "Permissão negada: Verifique se as políticas RLS da tabela votes estão configuradas corretamente.";
+        } else {
+          errorMessage = error.message;
+        }
+      }
+      
       toast.error("Erro ao registrar votos", {
-        description: error.message || "Tente novamente mais tarde.",
+        description: errorMessage,
+        duration: 10000,
       });
     } finally {
       setSubmitting(false);
